@@ -20,5 +20,11 @@ libraryDependencies += "org.awaitility" % "awaitility" % "2.0.0" % Test
 libraryDependencies += "com.drewnoakes" % "metadata-extractor" % "2.11.0"
 libraryDependencies += "com.flickr4java" % "flickr4java" % "2.17"
 
+libraryDependencies += "org.hibernate" % "hibernate-core" % "5.3.1.Final"
+libraryDependencies += "org.mariadb.jdbc" % "mariadb-java-client" % "2.2.5"
+
+libraryDependencies += "org.webjars" % "bootstrap" % "4.1.0"
+libraryDependencies += "org.webjars.bowergithub.chartjs" % "chart.js" % "2.7.2"
+
 // Make verbose tests
 testOptions in Test := Seq(Tests.Argument(TestFrameworks.JUnit, "-a", "-v"))
