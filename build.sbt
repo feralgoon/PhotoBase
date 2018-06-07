@@ -18,7 +18,7 @@ libraryDependencies += "org.assertj" % "assertj-core" % "3.6.2" % Test
 libraryDependencies += "org.awaitility" % "awaitility" % "2.0.0" % Test
 
 libraryDependencies += "com.drewnoakes" % "metadata-extractor" % "2.11.0"
-
+libraryDependencies += "com.flickr4java" % "flickr4java" % "2.17"
 
 // Make verbose tests
 testOptions in Test := Seq(Tests.Argument(TestFrameworks.JUnit, "-a", "-v"))
