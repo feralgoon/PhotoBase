@@ -1,20 +1,48 @@
-@*
- * This template takes a single argument, a String containing a
- * message to display.
- *@
-@(message: String)
-
-@*
- * Call the `main` template with two arguments. The first
- * argument is a `String` with the title of the page, the second
- * argument is an `Html` object containing the body of the page.
- *@
-@main("Welcome to Play") {
-
-    @*
-     * Get an `Html` object by calling the built-in Play welcome
-     * template and passing a `String` message.
-     *@
-    @welcome(message, style = "java")
-
-}
+@import com.flickr4java.flickr.photos.Photo
+@import com.flickr4java.flickr.photos.Exif
+@import services.FlickrService;
+@(photoMap : Map[Photo,Map[String,String]])
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="/assets/lib/bootstrap/css/bootstrap.min.css">
+    <title>Boop</title>
+</head>
+<body>
+<div class="jumbotron bg-success">
+    <div class="row">
+        <div class="col-12 text-center display-2">
+            Page is working
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <table class="table table-bordered table-hover">
+            <tr>
+                <th>Photo</th>
+                <th>Photographer</th>
+                <th>Aperture</th>
+                <th>Exposure</th>
+                <th>ISO</th>
+                <th>Camera Model</th>
+                <th>Camera Lens</th>
+            </tr>
+        @for(photo <- photoMap.keySet) {
+            <tr>
+                <td><a href="@photo.getUrl">@photo.getTitle</a></td>
+                <td>@photo.getOwner.getRealName</td>
+                <td>@photoMap.get(photo).get("Aperture")</td>
+                <td>@photoMap.get(photo).get("Exposure")</td>
+                <td>@photoMap.get(photo).get("ISO Speed")</td>
+                <td>@photoMap.get(photo).get("Model")</td>
+                <td>@photoMap.get(photo).get("Make")</td>
+            </tr>
+        }
+        </table>
+    </div>
+</div>
+</body>
+</html>
