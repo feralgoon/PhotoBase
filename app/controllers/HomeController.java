@@ -1,88 +1,62 @@
 package controllers;
 
-import com.flickr4java.flickr.Flickr;
+
 import com.flickr4java.flickr.FlickrException;
-import com.flickr4java.flickr.photos.Exif;
-import com.flickr4java.flickr.photos.Photo;
-import com.flickr4java.flickr.photos.PhotosInterface;
-import com.flickr4java.flickr.photos.SearchParameters;
-import com.flickr4java.flickr.tags.Tag;
+import com.flickr4java.flickr.people.PeopleInterface;
+import models.Photo;
+import play.db.jpa.JPAApi;
+import play.db.jpa.Transactional;
 import play.mvc.*;
 
-import services.FlickrService;
+import services.FlickrAPICall;
+import services.MetadataExtraction;
 import views.html.*;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import javax.inject.Inject;
+import java.io.File;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class HomeController extends Controller
 {
-    public Result index() throws FlickrException
+    JPAApi jpaApi;
+
+    @Inject
+    public HomeController(JPAApi jpaApi)
     {
-        FlickrService flickrService = new FlickrService();
-        Flickr f = flickrService.getFlickr();
+        this.jpaApi = jpaApi;
+    }
 
-        PhotosInterface photosInterface = f.getPhotosInterface();
+    @Transactional(readOnly = true)
+    public Result index()
+    {
+        /*FlickrAPICall flickrAPICall = new FlickrAPICall();
+        Map<Photo,Map<String,String>> finalPhotoMap = flickrAPICall.getPhotoMap();
+        PeopleInterface peopleInterface = flickrAPICall.getPeopleInterface();
+        return ok(index.render(finalPhotoMap,peopleInterface));
+        */
+        MetadataExtraction metadataExtraction = new MetadataExtraction();
+        File folder = new File("C:/Users/Joseph/Desktop/ProjectPhotos/");
+        //File folder = new File("C:/Users/Joseph/Desktop/mirflickr/");
 
-        //Sets up parameters to filter photos used
-        SearchParameters searchParameters = new SearchParameters();
-        //Shows only photos with license CC0, or Creative Commons. Redundant, but needed in case of group changes to allow copyright photos.
-        searchParameters.setLicense("9");
-        //Sets search parameter to 'Safe'. Redundant, but needed in case of group changes to allow adult content.
-        searchParameters.setSafeSearch("1");
-        //Public domain group - all submitted images are free to use and contain no adult content.
-        searchParameters.setGroupId("2178061@N21");
+        File[] fileList = folder.listFiles();
 
-        List<Photo> photoList = photosInterface.search(searchParameters,500,1);
-        Map<Photo,Map<String,String>> finalPhotoMap = new HashMap<>();
-
-        for(Photo photo : photoList)
+        Map<String,Map<String,String>> photosWithData = new HashMap<>();
+        String sql = "SELECT p FROM Photo p";
+        List<Photo> photoList = jpaApi.em().createQuery(sql,Photo.class).getResultList();
+        for(File file : fileList)
         {
-            boolean addPhoto = false;
-            Collection<Exif> exif;
-            try
+            Map<String,String> temp = metadataExtraction.getMetadata(file);
+            if(temp.size() == 8)
             {
-                exif = photosInterface.getExif(photo.getId(),flickrService.getSharedSecret());
-
-            } catch (Exception e)
-            {
-                continue;
-            }
-            List<Exif> exifList = exif.stream().collect(Collectors.toList());
-
-            for(Exif item : exifList)
-            {
-                if(item.getTag().equals("Aperture"))
-                {
-                    for(Exif item2 : exifList)
-                    {
-                        if(item2.getTag().equals("ISO Speed"))
-                        {
-                            for(Exif item3 : exifList)
-                            {
-                                if(item3.getTag().equals("Exposure"))
-                                {
-                                    addPhoto = true;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            if(addPhoto)
-            {
-                Map<String,String> exifDataList = new HashMap<>();
-
-                for(Exif item : exifList)
-                {
-                    exifDataList.put(item.getLabel(),item.getRaw());
-                }
-                finalPhotoMap.put(photo,exifDataList);
+                photosWithData.put(file.getName(),temp);
             }
         }
 
-        return ok(index.render(finalPhotoMap));
+        return ok(index.render(photosWithData));
     }
+
+
 
 }

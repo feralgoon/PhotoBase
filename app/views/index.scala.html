@@ -1,16 +1,16 @@
-@import com.flickr4java.flickr.photos.Photo
-@import com.flickr4java.flickr.photos.Exif
-@import services.FlickrService;
-@(photoMap : Map[Photo,Map[String,String]])
+@(photoMap : Map[String,Map[String,String]])
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="/assets/lib/bootstrap/css/bootstrap.min.css">
+    <script src="/assets/lib/jquery/jquery.min.js"></script>
+    <script src="/assets/lib/bootstrap/js/bootstrap.min.js"></script>
     <title>Boop</title>
 </head>
 <body>
+@nav.render("home")
 <div class="jumbotron bg-success">
     <div class="row">
         <div class="col-12 text-center display-2">
@@ -29,16 +29,18 @@
                 <th>ISO</th>
                 <th>Camera Model</th>
                 <th>Camera Lens</th>
+                <th>Date/Time</th>
             </tr>
         @for(photo <- photoMap.keySet) {
             <tr>
-                <td><a href="@photo.getUrl">@photo.getTitle</a></td>
-                <td>@photo.getOwner.getRealName</td>
-                <td>@photoMap.get(photo).get("Aperture")</td>
-                <td>@photoMap.get(photo).get("Exposure")</td>
-                <td>@photoMap.get(photo).get("ISO Speed")</td>
+                <td>@photo.</td>
+                <td>@photoMap.get(photo).get("Artist")</td>
+                <td>@photoMap.get(photo).get("F-Number")</td>
+                <td>@photoMap.get(photo).get("Exposure Time")</td>
+                <td>@photoMap.get(photo).get("ISO Speed Ratings")</td>
                 <td>@photoMap.get(photo).get("Model")</td>
-                <td>@photoMap.get(photo).get("Make")</td>
+                <td>@photoMap.get(photo).get("Lens Model")</td>
+                <td>@photoMap.get(photo).get("Date/Time Original")</td>
             </tr>
         }
         </table>

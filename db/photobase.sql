@@ -1,3 +1,8 @@
+CREATE TABLE FileExtension (
+                FileExtensionId INT AUTO_INCREMENT NOT NULL,
+                FileExtensionName VARCHAR(4) NOT NULL,
+                PRIMARY KEY (FileExtensionId)
+);
 
 CREATE TABLE ExposureTime (
                 ExposureTimeId INT AUTO_INCREMENT NOT NULL,
@@ -71,10 +76,14 @@ CREATE TABLE Photo (
                 DateTaken DATE NOT NULL,
                 TimeTaken TIME NOT NULL,
                 Picture LONGBLOB NOT NULL,
-                PictureThumbnail LONGBLOB NOT NULL,
                 PRIMARY KEY (PhotoId)
 );
 
+ALTER TABLE Photo ADD CONSTRAINT fileextension_photo_fk
+FOREIGN KEY (FileExtensionId)
+REFERENCES FileExtension (FileExtensionId)
+ON DELETE NO ACTION
+ON UPDATE NO ACTION;
 
 ALTER TABLE Photo ADD CONSTRAINT exposuretime_photo_fk
 FOREIGN KEY (ExposureTimeId)
