@@ -4,6 +4,8 @@
 
 GET     /                           controllers.HomeController.index
 GET     /upload                     controllers.PhotoController.getUpload
+GET     /photos                     controllers.PhotoController.getPhotos
+GET     /photopicture/:id           controllers.PhotoController.getPhotoPicture(id : Integer)
 
 POST    /upload                     controllers.PhotoController.postUpload
 

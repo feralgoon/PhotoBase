@@ -4,6 +4,7 @@ package controllers;
 import com.flickr4java.flickr.FlickrException;
 import com.flickr4java.flickr.people.PeopleInterface;
 import models.Photo;
+import models.PhotoDetail;
 import play.db.jpa.JPAApi;
 import play.db.jpa.Transactional;
 import play.mvc.*;
@@ -41,18 +42,8 @@ public class HomeController extends Controller
         //File folder = new File("C:/Users/Joseph/Desktop/mirflickr/");
 
         File[] fileList = folder.listFiles();
-
         Map<String,Map<String,String>> photosWithData = new HashMap<>();
-        String sql = "SELECT p FROM Photo p";
-        List<Photo> photoList = jpaApi.em().createQuery(sql,Photo.class).getResultList();
-        for(File file : fileList)
-        {
-            Map<String,String> temp = metadataExtraction.getMetadata(file);
-            if(temp.size() == 8)
-            {
-                photosWithData.put(file.getName(),temp);
-            }
-        }
+
 
         return ok(index.render(photosWithData));
     }

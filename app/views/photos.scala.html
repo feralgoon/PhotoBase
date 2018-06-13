@@ -1,0 +1,55 @@
+@import models.PhotoDetail
+@(photos : List[PhotoDetail])
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="/assets/lib/bootstrap/css/bootstrap.min.css">
+    <script src="/assets/lib/jquery/jquery.min.js"></script>
+    <script src="/assets/lib/bootstrap/js/bootstrap.min.js"></script>
+    <title>Photos</title>
+</head>
+<body>
+@nav.render("photos")
+<div class="jumbotron">
+    <div class="row">
+        <div class="col-12 text-center display-2">
+            Photos
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <table class="table-hover table-bordered text-center">
+                <tr>
+                    <th class="col-md-2">Picture</th>
+                    <th class="col-md-1">Photographer</th>
+                    <th class="col-md-2">Camera</th>
+                    <th class="col-md-2">Lens</th>
+                    <th class="col-md-1">ISO</th>
+                    <th class="col-md-1">Aperture</th>
+                    <th class="col-md-1">Exposure</th>
+                    <th class="col-md-1">Date</th>
+                    <th class="col-md-1">Time</th>
+                </tr>
+                @for(photo <- photos) {
+                <tr>
+                    <td><img src="../photopicture/@photo.getPhotoId" width="100"></td>
+                    <td>@photo.getPhotographer</td>
+                    <td>@photo.getCameraModel</td>
+                    <td>@photo.getLensModel</td>
+                    <td>@photo.getIso</td>
+                    <td>@photo.getAperture</td>
+                    <td>@photo.getExposureTime</td>
+                    <td>@photo.getDateTaken</td>
+                    <td>@photo.getTimeTaken</td>
+                </tr>
+                }
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>

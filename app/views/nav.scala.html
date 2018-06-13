@@ -9,6 +9,13 @@
             }
             <a class="nav-link" href="/../">Home</a>
         </li>
+        @if("photos".equals(page)){
+        <li class="nav-item active">
+            } else {
+        <li class="nav-item">
+            }
+            <a class="nav-link" href="/../photos">Photos</a>
+        </li>
         @if("upload".equals(page)){
         <li class="nav-item active">
             } else {
