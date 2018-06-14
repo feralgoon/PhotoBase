@@ -1,5 +1,6 @@
-@(photoMap : Map[String,Map[String,String]])
+@(status : String)
 <!DOCTYPE html>
+@import helper._
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -14,36 +15,18 @@
 <div class="jumbotron bg-success">
     <div class="row">
         <div class="col-12 text-center display-2">
-            Page is working
+            @status
         </div>
     </div>
 </div>
-<div class="row">
-    <div class="col-md-8 offset-md-2">
-        <table class="table table-bordered table-hover">
-            <tr>
-                <th>Photo</th>
-                <th>Photographer</th>
-                <th>Aperture</th>
-                <th>Exposure</th>
-                <th>ISO</th>
-                <th>Camera Model</th>
-                <th>Camera Lens</th>
-                <th>Date/Time</th>
-            </tr>
-        @for(photo <- photoMap.keySet) {
-            <tr>
-                <td>@photo.</td>
-                <td>@photoMap.get(photo).get("Artist")</td>
-                <td>@photoMap.get(photo).get("F-Number")</td>
-                <td>@photoMap.get(photo).get("Exposure Time")</td>
-                <td>@photoMap.get(photo).get("ISO Speed Ratings")</td>
-                <td>@photoMap.get(photo).get("Model")</td>
-                <td>@photoMap.get(photo).get("Lens Model")</td>
-                <td>@photoMap.get(photo).get("Date/Time Original")</td>
-            </tr>
-        }
-        </table>
+<div class="container">
+    <div class="row">
+        <div class="col-md-4 offset-md-4 text-center">
+            <form id="photoFolder" method="POST" class="form-control" action="/../">
+                @CSRF.formField
+                <input type="submit" value="Upload Folder" class="btn">
+            </form>
+        </div>
     </div>
 </div>
 </body>

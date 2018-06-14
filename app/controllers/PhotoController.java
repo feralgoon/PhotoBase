@@ -1,7 +1,7 @@
 package controllers;
 
-import com.google.common.io.Files;
 import models.*;
+import play.api.Play;
 import play.data.FormFactory;
 import play.db.jpa.JPAApi;
 import play.db.jpa.Transactional;
@@ -11,6 +11,7 @@ import views.html.*;
 
 import javax.inject.Inject;
 import java.io.File;
+
 import java.sql.Date;
 import java.sql.Time;
 import java.text.ParseException;
@@ -46,16 +47,14 @@ public class PhotoController extends Controller
     @Transactional(readOnly = true)
     public Result getPhotoPicture(int photoId)
     {
-        Photo photo = findPhoto(photoId);
-
-        return ok(photo.getPicture()).as("image/jpg");
+        return ok("/public/images/" + photoId + ".jpg").as("image/jpg");
     }
 
     @Transactional(readOnly = true)
     public Result getPhotos()
     {
         String sql = "SELECT NEW models.PhotoDetail(p.photoId,ph.photographerName,lm.lensModelName,cm.cameraModelName,i.isoSpeed,a.apertureName," +
-                        "e.exposureLength,p.dateTaken,p.timeTaken,p.picture) " +
+                        "e.exposureLength,p.dateTaken,p.timeTaken) " +
                         "FROM Photo p " +
                         "JOIN Photographer ph ON p.photographerId = ph.photographerId " +
                         "JOIN LensModel lm ON p.lensModelId = lm.lensModelId " +
@@ -75,6 +74,9 @@ public class PhotoController extends Controller
         Http.MultipartFormData.FilePart<File> filePart = formData.getFile("photo");
         File file = filePart.getFile();
 
+
+        //File file = request().body().asRaw().asFile();
+
         MetadataExtraction metadataExtraction = new MetadataExtraction();
         Map<String, String> exifData = metadataExtraction.getMetadata(file);
         System.out.println("map size : " + exifData.size());
@@ -85,17 +87,8 @@ public class PhotoController extends Controller
         }
 
         Photo photo = new Photo();
+        System.out.println(file);
 
-        if (file != null)
-        {
-            try
-            {
-                photo.setPicture(Files.toByteArray(file));
-            } catch (Exception e)
-            {
-                //do nothing
-            }
-        }
         if (exifData.size() == 8)
         {
             Aperture aperture;
@@ -226,12 +219,14 @@ public class PhotoController extends Controller
             photo.setLensModelId(lensModel.getLensModelId());
             photo.setPhotographerId(photographer.getPhotographerId());
             jpaApi.em().persist(photo);
+
+
+            System.out.println(Play.current().path().getAbsolutePath());
+            System.out.println(file.renameTo(new File(Play.current().path().getAbsolutePath() + "/public/images/" + photo.getPhotoId() + ".jpg")));
+            System.out.println(file.delete());
         }
 
         return ok(upload.render());
     }
-
-
-
 }
 

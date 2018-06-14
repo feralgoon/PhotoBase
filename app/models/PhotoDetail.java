@@ -18,9 +18,8 @@ public class PhotoDetail
     private String exposureTime;
     private Date dateTaken;
     private Date timeTaken;
-    private byte[] picture;
 
-    public PhotoDetail(int photoId, String photographer, String lensModel, String cameraModel, String iso, String aperture, String exposureTime, Date dateTaken, Date timeTaken,byte[] picture)
+    public PhotoDetail(int photoId, String photographer, String lensModel, String cameraModel, String iso, String aperture, String exposureTime, Date dateTaken, Date timeTaken)
     {
         this.photoId = photoId;
         this.photographer = photographer;
@@ -31,7 +30,7 @@ public class PhotoDetail
         this.exposureTime = exposureTime;
         this.dateTaken = dateTaken;
         this.timeTaken = timeTaken;
-        this.picture = picture;
+
     }
 
     public int getPhotoId()
@@ -79,8 +78,4 @@ public class PhotoDetail
         return timeTaken;
     }
 
-    public byte[] getPicture()
-    {
-        return picture;
-    }
 }

@@ -6,6 +6,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="/assets/lib/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/assets/lib/slick/slick.css">
+    <link rel="stylesheet" type="text/css" href="/assets/lib/slick/slick-theme.css">
     <script src="/assets/lib/jquery/jquery.min.js"></script>
     <script src="/assets/lib/bootstrap/js/bootstrap.min.js"></script>
     <title>Photos</title>
@@ -19,37 +21,48 @@
         </div>
     </div>
 </div>
-<div class="container">
-    <div class="row">
-        <div class="col-12">
-            <table class="table-hover table-bordered text-center">
-                <tr>
-                    <th class="col-md-2">Picture</th>
-                    <th class="col-md-1">Photographer</th>
-                    <th class="col-md-2">Camera</th>
-                    <th class="col-md-2">Lens</th>
-                    <th class="col-md-1">ISO</th>
-                    <th class="col-md-1">Aperture</th>
-                    <th class="col-md-1">Exposure</th>
-                    <th class="col-md-1">Date</th>
-                    <th class="col-md-1">Time</th>
-                </tr>
-                @for(photo <- photos) {
-                <tr>
-                    <td><img src="../photopicture/@photo.getPhotoId" width="100"></td>
-                    <td>@photo.getPhotographer</td>
-                    <td>@photo.getCameraModel</td>
-                    <td>@photo.getLensModel</td>
-                    <td>@photo.getIso</td>
-                    <td>@photo.getAperture</td>
-                    <td>@photo.getExposureTime</td>
-                    <td>@photo.getDateTaken</td>
-                    <td>@photo.getTimeTaken</td>
-                </tr>
-                }
-            </table>
+<div class="container bg-dark">
+
+    <div class="testcarousel col-md-10 offset-md-1">
+        @for(photo <- photos) {
+        <div class="text-center"><img src='@routes.Assets.versioned("images/" + photo.getPhotoId + ".jpg")'
+                                      height="200px"></div>
+        }
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <table class="table-hover table-bordered text-center text-light">
+                    <tr>
+                        <th class="col-md-2">Picture</th>
+                        <th class="col-md-1">Photographer</th>
+                        <th class="col-md-2">Camera</th>
+                        <th class="col-md-2">Lens</th>
+                        <th class="col-md-1">ISO</th>
+                        <th class="col-md-1">Aperture</th>
+                        <th class="col-md-1">Exposure</th>
+                        <th class="col-md-1">Date</th>
+                        <th class="col-md-1">Time</th>
+                    </tr>
+                    @for(photo <- photos) {
+                    <tr>
+                        <td><img src='@routes.Assets.versioned("images/" + photo.getPhotoId + ".jpg")' width="100"></td>
+                        <td>@photo.getPhotographer</td>
+                        <td>@photo.getCameraModel</td>
+                        <td>@photo.getLensModel</td>
+                        <td>@photo.getIso</td>
+                        <td>@photo.getAperture</td>
+                        <td>@photo.getExposureTime</td>
+                        <td>@photo.getDateTaken</td>
+                        <td>@photo.getTimeTaken</td>
+                    </tr>
+                    }
+                </table>
+            </div>
         </div>
     </div>
 </div>
+<script type="text/javascript" src="/assets/lib/slick/slick.min.js"></script>
+<script type="text/javascript" src='@routes.Assets.versioned("javascripts/slickcarousel.js")'></script>
 </body>
 </html>

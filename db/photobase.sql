@@ -49,7 +49,6 @@ CREATE TABLE Manufacturer (
 
 CREATE TABLE LensModel (
                 LensModelId INT AUTO_INCREMENT NOT NULL,
-                ManufacturerId INT NOT NULL,
                 LensModelName VARCHAR(50) NOT NULL,
                 PRIMARY KEY (LensModelId)
 );
@@ -72,10 +71,8 @@ CREATE TABLE Photo (
                 IsoId INT NOT NULL,
                 ApertureId INT NOT NULL,
                 ExposureTimeId INT NOT NULL,
-                FocusMode BOOLEAN NOT NULL,
                 DateTaken DATE NOT NULL,
                 TimeTaken TIME NOT NULL,
-                Picture LONGBLOB NOT NULL,
                 PRIMARY KEY (PhotoId)
 );
 
@@ -116,12 +113,6 @@ ON DELETE NO ACTION
 ON UPDATE NO ACTION;
 
 ALTER TABLE CameraModel ADD CONSTRAINT cameramanufacturer_cameramodel_fk
-FOREIGN KEY (ManufacturerId)
-REFERENCES Manufacturer (ManufacturerId)
-ON DELETE NO ACTION
-ON UPDATE NO ACTION;
-
-ALTER TABLE LensModel ADD CONSTRAINT manufacturer_lensmodel_fk
 FOREIGN KEY (ManufacturerId)
 REFERENCES Manufacturer (ManufacturerId)
 ON DELETE NO ACTION

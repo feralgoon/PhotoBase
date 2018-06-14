@@ -7,6 +7,7 @@ GET     /upload                     controllers.PhotoController.getUpload
 GET     /photos                     controllers.PhotoController.getPhotos
 GET     /photopicture/:id           controllers.PhotoController.getPhotoPicture(id : Integer)
 
+POST    /                           controllers.HomeController.postIndex
 POST    /upload                     controllers.PhotoController.postUpload
 
 # Map static resources from the /public folder to the /assets URL path

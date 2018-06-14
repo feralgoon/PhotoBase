@@ -22,7 +22,6 @@ public class Photo
     private int exposureTimeId;
     private Date dateTaken;
     private Time timeTaken;
-    private byte[] picture;
 
     public int getPhotoId()
     {
@@ -110,13 +109,4 @@ public class Photo
         this.timeTaken = timeTaken;
     }
 
-    public byte[] getPicture()
-    {
-        return picture;
-    }
-
-    public void setPicture(byte[] picture)
-    {
-        this.picture = picture;
-    }
 }
