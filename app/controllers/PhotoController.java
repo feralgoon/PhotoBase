@@ -40,7 +40,7 @@ public class PhotoController extends Controller
     private Photo findPhoto(int photoId)
     {
         String sql = "SELECT p FROM Photo p " +
-                "WHERE p.photoId = :photoId";
+                     "WHERE p.photoId = :photoId";
         return jpaApi.em().createQuery(sql, Photo.class).setParameter("photoId", photoId).getSingleResult();
     }
 
@@ -73,9 +73,6 @@ public class PhotoController extends Controller
         Http.MultipartFormData<File> formData = request().body().asMultipartFormData();
         Http.MultipartFormData.FilePart<File> filePart = formData.getFile("photo");
         File file = filePart.getFile();
-
-
-        //File file = request().body().asRaw().asFile();
 
         MetadataExtraction metadataExtraction = new MetadataExtraction();
         Map<String, String> exifData = metadataExtraction.getMetadata(file);

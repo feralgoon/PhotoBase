@@ -3,11 +3,16 @@
 # ~~~~
 
 GET     /                           controllers.HomeController.index
+
 GET     /upload                     controllers.PhotoController.getUpload
 GET     /photos                     controllers.PhotoController.getPhotos
 GET     /photopicture/:id           controllers.PhotoController.getPhotoPicture(id : Integer)
 
+GET     /photographers              controllers.PhotographerController.getPhotographers
+GET     /photographer/:id           controllers.PhotographerController.getPhotographer(id : Integer)
+
 POST    /                           controllers.HomeController.postIndex
+
 POST    /upload                     controllers.PhotoController.postUpload
 
 # Map static resources from the /public folder to the /assets URL path

@@ -6,7 +6,7 @@
   asNavFor: '.imagecarousel'
 });
 $('.imagecarousel').slick({
-  slidesToShow: 3,
+  slidesToShow: 1,
   slidesToScroll: 1,
   asNavFor: '.imagedetail',
   dots: true,

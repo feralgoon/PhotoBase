@@ -10,14 +10,14 @@
     <link rel="stylesheet" type="text/css" href="/assets/lib/slick/slick-theme.css">
     <script src="/assets/lib/jquery/jquery.min.js"></script>
     <script src="/assets/lib/bootstrap/js/bootstrap.min.js"></script>
-    <title>Photos</title>
+    <title>@photos.get(0).getPhotographer</title>
 </head>
 <body>
-@nav.render("photos")
+@nav.render("photographer")
 <div class="jumbotron">
     <div class="row">
         <div class="col-12 text-center display-2">
-            Photos
+            @photos.get(0).getPhotographer
         </div>
     </div>
 </div>
@@ -38,9 +38,8 @@
                     <div>
                         <table class="table-hover table-bordered text-center text-light">
                             <tr>
-                                <th class="col-md-2">Photographer</th>
-                                <th class="col-md-2">Camera</th>
-                                <th class="col-md-3">Lens</th>
+                                <th class="col-md-3">Camera</th>
+                                <th class="col-md-4">Lens</th>
                                 <th class="col-md-1">ISO</th>
                                 <th class="col-md-1">Aperture</th>
                                 <th class="col-md-1">Exposure</th>
@@ -49,8 +48,7 @@
                             </tr>
 
                             <tr>
-                                <td><a href="/../photographer/@photo.getPhotoId">@photo.getPhotographer</a></td>
-                                <td><div>@photo.getCameraModel</div></td>
+                                <td>@photo.getCameraModel</td>
                                 <td>@photo.getLensModel</td>
                                 <td>@photo.getIso</td>
                                 <td>@photo.getAperture</td>
@@ -67,6 +65,6 @@
     </div>
 </div>
 <script type="text/javascript" src="/assets/lib/slick/slick.min.js"></script>
-<script type="text/javascript" src='@routes.Assets.versioned("javascripts/slickcarousel.js")'></script>
+<script type="text/javascript" src='@routes.Assets.versioned("javascripts/photographerdetail.js")'></script>
 </body>
 </html>
