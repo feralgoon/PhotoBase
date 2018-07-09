@@ -11,6 +11,7 @@ public class PhotoDetail
     private int photoId;
 
     private String photographer;
+    private int photographerId;
     private String lensModel;
     private String cameraModel;
     private String iso;
@@ -19,10 +20,11 @@ public class PhotoDetail
     private Date dateTaken;
     private Date timeTaken;
 
-    public PhotoDetail(int photoId, String photographer, String lensModel, String cameraModel, String iso, String aperture, String exposureTime, Date dateTaken, Date timeTaken)
+    public PhotoDetail(int photoId, String photographer, int photographerId,String lensModel, String cameraModel, String iso, String aperture, String exposureTime, Date dateTaken, Date timeTaken)
     {
         this.photoId = photoId;
         this.photographer = photographer;
+        this.photographerId = photographerId;
         this.lensModel = lensModel;
         this.cameraModel = cameraModel;
         this.iso = iso;
@@ -41,6 +43,11 @@ public class PhotoDetail
     public String getPhotographer()
     {
         return photographer;
+    }
+
+    public int getPhotographerId()
+    {
+        return photographerId;
     }
 
     public String getLensModel()

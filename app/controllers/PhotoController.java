@@ -54,7 +54,7 @@ public class PhotoController extends Controller
     @Transactional(readOnly = true)
     public Result getPhotos()
     {
-        String sql = "SELECT NEW models.PhotoDetail(p.photoId,ph.photographerName,lm.lensModelName,cm.cameraModelName,i.isoSpeed,a.apertureName," +
+        String sql = "SELECT NEW models.PhotoDetail(p.photoId,ph.photographerName,ph.photographerId,lm.lensModelName,cm.cameraModelName,i.isoSpeed,a.apertureName," +
                         "e.exposureLength,p.dateTaken,p.timeTaken) " +
                         "FROM Photo p " +
                         "JOIN Photographer ph ON p.photographerId = ph.photographerId " +
@@ -276,7 +276,7 @@ public class PhotoController extends Controller
         List<String> isos          = Arrays.asList(request().body().asMultipartFormData().asFormUrlEncoded().get("Iso"));
         List<String> lensmodels    = Arrays.asList(request().body().asMultipartFormData().asFormUrlEncoded().get("LensModel"));
 
-        String sql = "SELECT NEW models.PhotoDetail(p.photoId,ph.photographerName,lm.lensModelName,cm.cameraModelName,i.isoSpeed,a.apertureName," +
+        String sql = "SELECT NEW models.PhotoDetail(p.photoId,ph.photographerName,ph.photographerId,lm.lensModelName,cm.cameraModelName,i.isoSpeed,a.apertureName," +
                 "e.exposureLength,p.dateTaken,p.timeTaken) " +
                 "FROM Photo p " +
                 "JOIN Photographer ph ON p.photographerId = ph.photographerId " +
