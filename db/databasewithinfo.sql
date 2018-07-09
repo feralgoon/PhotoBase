@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS `aperture` (
   `ApertureId` int(11) NOT NULL AUTO_INCREMENT,
   `ApertureName` varchar(10) NOT NULL,
   PRIMARY KEY (`ApertureId`)
-) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8;
 
 -- Dumping data for table photobase.aperture: ~8 rows (approximately)
 /*!40000 ALTER TABLE `aperture` DISABLE KEYS */;
@@ -33,7 +33,9 @@ INSERT INTO `aperture` (`ApertureId`, `ApertureName`) VALUES
 	(29, 'f/16.0'),
 	(30, 'f/5.6'),
 	(31, 'f/4.5'),
-	(32, 'f/5.0');
+	(32, 'f/5.0'),
+	(33, 'f/2.5'),
+	(34, 'f/3.2');
 /*!40000 ALTER TABLE `aperture` ENABLE KEYS */;
 
 -- Dumping structure for table photobase.cameramodel
@@ -63,7 +65,7 @@ CREATE TABLE IF NOT EXISTS `exposuretime` (
   `ExposureTimeId` int(11) NOT NULL AUTO_INCREMENT,
   `ExposureLength` varchar(10) NOT NULL,
   PRIMARY KEY (`ExposureTimeId`)
-) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8;
 
 -- Dumping data for table photobase.exposuretime: ~14 rows (approximately)
 /*!40000 ALTER TABLE `exposuretime` DISABLE KEYS */;
@@ -81,7 +83,10 @@ INSERT INTO `exposuretime` (`ExposureTimeId`, `ExposureLength`) VALUES
 	(38, '1/160 sec'),
 	(39, '1/400 sec'),
 	(40, '1/1250 sec'),
-	(41, '1/200 sec');
+	(41, '1/200 sec'),
+	(42, '1/3200 sec'),
+	(43, '1/5000 sec'),
+	(44, '1/500 sec');
 /*!40000 ALTER TABLE `exposuretime` ENABLE KEYS */;
 
 -- Dumping structure for table photobase.iso
@@ -167,7 +172,7 @@ CREATE TABLE IF NOT EXISTS `photo` (
   CONSTRAINT `iso_photo_fk` FOREIGN KEY (`IsoId`) REFERENCES `iso` (`IsoId`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `lensmodel_photo_fk` FOREIGN KEY (`LensModelId`) REFERENCES `lensmodel` (`LensModelId`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `photographer_photo_fk` FOREIGN KEY (`PhotographerId`) REFERENCES `photographer` (`PhotographerId`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=utf8;
 
 -- Dumping data for table photobase.photo: ~17 rows (approximately)
 /*!40000 ALTER TABLE `photo` DISABLE KEYS */;
@@ -188,7 +193,11 @@ INSERT INTO `photo` (`PhotoId`, `PhotographerId`, `LensModelId`, `CameraModelId`
 	(40, 28, 34, 29, 25, 32, 40, '2018-05-19', '14:23:18'),
 	(41, 28, 35, 29, 25, 32, 28, '2018-05-17', '10:13:52'),
 	(42, 29, 36, 30, 24, 28, 41, '2018-04-10', '20:24:23'),
-	(43, 29, 36, 30, 24, 28, 34, '2018-04-10', '20:32:47');
+	(43, 29, 36, 30, 24, 28, 34, '2018-04-10', '20:32:47'),
+	(44, 28, 34, 29, 25, 33, 42, '2018-05-19', '15:27:48'),
+	(45, 28, 34, 29, 25, 28, 43, '2018-05-19', '14:50:38'),
+	(46, 22, 24, 24, 24, 26, 28, '2018-07-01', '08:58:56'),
+	(47, 28, 34, 29, 23, 34, 44, '2018-05-20', '12:55:05');
 /*!40000 ALTER TABLE `photo` ENABLE KEYS */;
 
 -- Dumping structure for table photobase.photographer
