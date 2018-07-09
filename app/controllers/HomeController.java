@@ -1,8 +1,5 @@
 package controllers;
 
-
-import com.flickr4java.flickr.FlickrException;
-import com.flickr4java.flickr.people.PeopleInterface;
 import models.*;
 import play.api.Play;
 import play.data.FormFactory;
@@ -10,7 +7,6 @@ import play.db.jpa.JPAApi;
 import play.db.jpa.Transactional;
 import play.mvc.*;
 
-import services.FlickrAPICall;
 import services.MetadataExtraction;
 import views.html.*;
 
@@ -20,14 +16,13 @@ import java.sql.Date;
 import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class HomeController extends Controller
 {
-    JPAApi jpaApi;
-    FormFactory formFactory;
+    private JPAApi jpaApi;
+    private FormFactory formFactory;
 
     @Inject
     public HomeController(JPAApi jpaApi,FormFactory formFactory)
@@ -39,7 +34,7 @@ public class HomeController extends Controller
     @Transactional(readOnly = true)
     public Result index()
     {
-        return ok(index.render("Home"));
+        return ok(index.render());
     }
 
     @Transactional
@@ -47,7 +42,7 @@ public class HomeController extends Controller
     {
         importFolder();
 
-        return ok(index.render("Photos Uploaded"));
+        return ok(index.render());
     }
 
     @Transactional
@@ -200,9 +195,7 @@ public class HomeController extends Controller
                 photo.setPhotographerId(photographer.getPhotographerId());
                 jpaApi.em().persist(photo);
 
-
-                System.out.println(Play.current().path().getAbsolutePath());
-                System.out.println(file.renameTo(new File(Play.current().path().getAbsolutePath() + "/public/images/" + photo.getPhotoId() + ".jpg")));
+                System.out.println("File renamed successfully: " + file.renameTo(new File(Play.current().path().getAbsolutePath() + "/public/images/" + photo.getPhotoId() + ".jpg")));
 
             }
             System.out.println(file.delete());

@@ -10,10 +10,25 @@
     <script src="/assets/lib/bootstrap/js/bootstrap.min.js"></script>
     <title>Photographers</title>
 </head>
-<body>
 @nav.render("photographer")
- @for(photographer <- photographers) {
-@photographer.getPhotographer
-}
+<body>
+<div class="jumbotron">
+    <div class="row">
+        <div class="col-md-12 text-center display-2">
+            Photographers
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-4 offset-md-4 text-center">
+            <table class="table-bordered table-hover text-center">
+                @for(photographer <- photographers) {
+                <tr><td><a href="/photographer/@photographer.getPhotographerId">@photographer.getPhotographer</a></td></tr>
+                }
+            </table>
+        </div>
+    </div>
+</div>
 </body>
 </html>

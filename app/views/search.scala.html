@@ -1,0 +1,49 @@
+@(data : Map[String,List[String]])
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="/assets/lib/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/assets/lib/slick/slick.css">
+    <link rel="stylesheet" type="text/css" href="/assets/lib/slick/slick-theme.css">
+    <script src="/assets/lib/jquery/jquery.min.js"></script>
+    <script src="/assets/lib/bootstrap/js/bootstrap.min.js"></script>
+    <title>Search</title>
+</head>
+<body>
+@nav.render("search")
+
+<div class="jumbotron">
+    <div class="row">
+        <div class="col-12 text-center display-2">
+            Search Photos
+        </div>
+    </div>
+</div>
+<div class="container">
+    <form class="form-control" method="post" enctype="multipart/form-data">
+        @helper.CSRF.formField
+        <div class="row">
+            @for(key <- data.keySet) {
+            <div class="input-group col-4 text-center">
+                <label for="@key">@key: </label>
+                <select multiple name="@key" id="@key" class="form-control text-center">
+                    <option value="Any-@key" selected="selected">All</option>
+                    @for(value <- data.get(key)) {
+                    <option value="@value">@value</option>
+                    }
+                </select>
+            </div>
+            }
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-md-4 offset-md-4 text-center">
+                <button type="submit" class="btn btn-primary">Search</button>
+            </div>
+        </div>
+    </form>
+</div>
+</body>
+</html>

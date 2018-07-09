@@ -2,6 +2,7 @@ package controllers;
 
 import models.*;
 import play.api.Play;
+import play.data.DynamicForm;
 import play.data.FormFactory;
 import play.db.jpa.JPAApi;
 import play.db.jpa.Transactional;
@@ -10,14 +11,14 @@ import services.MetadataExtraction;
 import views.html.*;
 
 import javax.inject.Inject;
+import javax.persistence.Query;
 import java.io.File;
 
 import java.sql.Date;
 import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class PhotoController extends Controller
 {
@@ -82,6 +83,7 @@ public class PhotoController extends Controller
         {
             System.out.println(s + ": " + exifData.get(s));
         }
+
 
         Photo photo = new Photo();
         System.out.println(file);
@@ -224,6 +226,131 @@ public class PhotoController extends Controller
         }
 
         return ok(upload.render());
+    }
+
+    @Transactional(readOnly = true)
+    public Result getSearch()
+    {
+        Map<String,List<String>> searchData = new HashMap<>();
+
+        String sql = "SELECT apertureName FROM Aperture " +
+                        "ORDER BY apertureName ASC";
+        List<String> apertureList = jpaApi.em().createQuery(sql,String.class).getResultList();
+        searchData.put("Aperture",apertureList);
+
+        sql = "SELECT cameraModelName FROM CameraModel " +
+                "ORDER BY cameraModelName ASC";
+        List<String> cameraModelList = jpaApi.em().createQuery(sql,String.class).getResultList();
+        searchData.put("CameraModel",cameraModelList);
+
+        sql = "SELECT exposureLength FROM ExposureTime " +
+                "ORDER BY exposureLength ASC";
+        List<String> exposureList  = jpaApi.em().createQuery(sql,String.class).getResultList();
+        searchData.put("Exposure",exposureList);
+
+        sql = "SELECT isoSpeed FROM Iso " +
+                "ORDER BY isoSpeed ASC";
+        List<String> isoList = jpaApi.em().createQuery(sql,String.class).getResultList();
+        searchData.put("Iso",isoList);
+
+        sql = "SELECT lensModelName FROM LensModel " +
+                "ORDER BY lensModelName ASC";
+        List<String> lensModelList = jpaApi.em().createQuery(sql,String.class).getResultList();
+        searchData.put("LensModel",lensModelList);
+
+        sql = "SELECT photographerName FROM Photographer " +
+                "ORDER BY photographerName ASC";
+        List<String> photographers = jpaApi.em().createQuery(sql,String.class).getResultList();
+        searchData.put("Photographer",photographers);
+
+        return ok(search.render(searchData));
+    }
+
+    @Transactional(readOnly = true)
+    public Result postSearch()
+    {
+        List<String> cameramodels  = Arrays.asList(request().body().asMultipartFormData().asFormUrlEncoded().get("CameraModel"));
+        List<String> photographers = Arrays.asList(request().body().asMultipartFormData().asFormUrlEncoded().get("Photographer"));
+        List<String> apertures     = Arrays.asList(request().body().asMultipartFormData().asFormUrlEncoded().get("Aperture"));
+        List<String> exposures     = Arrays.asList(request().body().asMultipartFormData().asFormUrlEncoded().get("Exposure"));
+        List<String> isos          = Arrays.asList(request().body().asMultipartFormData().asFormUrlEncoded().get("Iso"));
+        List<String> lensmodels    = Arrays.asList(request().body().asMultipartFormData().asFormUrlEncoded().get("LensModel"));
+
+        String sql = "SELECT NEW models.PhotoDetail(p.photoId,ph.photographerName,lm.lensModelName,cm.cameraModelName,i.isoSpeed,a.apertureName," +
+                "e.exposureLength,p.dateTaken,p.timeTaken) " +
+                "FROM Photo p " +
+                "JOIN Photographer ph ON p.photographerId = ph.photographerId " +
+                "JOIN LensModel lm ON p.lensModelId = lm.lensModelId " +
+                "JOIN CameraModel cm ON p.cameraModelId = cm.cameraModelId " +
+                "JOIN Iso i ON p.isoId = i.isoId " +
+                "JOIN Aperture a ON p.apertureId = a.apertureId " +
+                "JOIN ExposureTime e ON p.exposureTimeId = e.exposureTimeId ";
+
+        if(!(cameramodels.isEmpty() || cameramodels.get(0).startsWith("Any")))
+        {
+            sql += "WHERE cm.cameraModelName IN :cameramodels ";
+        }
+
+        if(!(photographers.isEmpty() || photographers.get(0).startsWith("Any")))
+        {
+            sql += "WHERE ph.photographerName IN :photographers ";
+        }
+
+        if(!(apertures.isEmpty() || apertures.get(0).startsWith("Any")))
+        {
+            sql += "WHERE a.apertureName IN :apertures ";
+        }
+
+        if(!(exposures.isEmpty() || exposures.get(0).startsWith("Any")))
+        {
+            sql += "WHERE e.exposureLength IN :exposures ";
+        }
+
+        if(!(isos.isEmpty() || isos.get(0).startsWith("Any")))
+        {
+            sql += "WHERE i.isoSpeed IN :isos ";
+        }
+
+        if(!(lensmodels.isEmpty() || lensmodels.get(0).startsWith("Any")))
+        {
+            sql += "WHERE lm.lensModelName IN :lensmodels ";
+        }
+
+        Query query = jpaApi.em().createQuery(sql);
+
+        if(!(cameramodels.isEmpty() || cameramodels.get(0).startsWith("Any")))
+        {
+            query.setParameter("cameramodels",cameramodels);
+        }
+
+        if(!(photographers.isEmpty() || photographers.get(0).startsWith("Any")))
+        {
+            query.setParameter("photographers",photographers);
+        }
+
+        if(!(apertures.isEmpty() || apertures.get(0).startsWith("Any")))
+        {
+            query.setParameter("apertures",apertures);
+        }
+
+        if(!(exposures.isEmpty() || exposures.get(0).startsWith("Any")))
+        {
+            query.setParameter("exposures",exposures);
+        }
+
+        if(!(isos.isEmpty() || isos.get(0).startsWith("Any")))
+        {
+            query.setParameter("isos",isos);
+        }
+
+        if(!(lensmodels.isEmpty() || lensmodels.get(0).startsWith("Any")))
+        {
+            query.setParameter("lensmodels",lensmodels);
+        }
+
+        List<PhotoDetail> photoList = query.getResultList();
+
+        return ok(photos.render(photoList));
     }
 }
 

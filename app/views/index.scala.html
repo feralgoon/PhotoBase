@@ -1,4 +1,3 @@
-@(status : String)
 <!DOCTYPE html>
 @import helper._
 <html lang="en">
@@ -8,24 +7,55 @@
     <link rel="stylesheet" href="/assets/lib/bootstrap/css/bootstrap.min.css">
     <script src="/assets/lib/jquery/jquery.min.js"></script>
     <script src="/assets/lib/bootstrap/js/bootstrap.min.js"></script>
-    <title>Boop</title>
+    <title>Home</title>
 </head>
 <body>
 @nav.render("home")
-<div class="jumbotron bg-success">
+<div class="jumbotron">
     <div class="row">
         <div class="col-12 text-center display-2">
-            @status
+            PhotoBase
         </div>
     </div>
 </div>
 <div class="container">
     <div class="row">
-        <div class="col-md-4 offset-md-4 text-center">
-            <form id="photoFolder" method="POST" class="form-control" action="/../">
-                @CSRF.formField
-                <input type="submit" value="Upload Folder" class="btn">
-            </form>
+        <div class="col-md-3 offset-md-1 text-center">
+            <table class="table-hover table-bordered">
+                <tr>
+                    <th>Current Features</th>
+                </tr>
+                <tr>
+                    <td>Photo Uploading</td>
+                </tr>
+                <tr>
+                    <td>Metadata Extraction</td>
+                </tr>
+                <tr>
+                    <td>Photo Storage</td>
+                </tr>
+                <tr>
+                    <td>Search Features</td>
+                </tr>
+            </table>
+        </div>
+        <div class="col-md-3 offset-md-4 text-center">
+            <table class="table-hover table-bordered">
+                <tr>
+                    <th>
+                        Future Features
+                    </th>
+                </tr>
+                <tr>
+                    <td>File Streaming</td>
+                </tr>
+                <tr>
+                    <td>User Accounts</td>
+                </tr>
+                <tr>
+                    <td>Flickr Integration</td>
+                </tr>
+            </table>
         </div>
     </div>
 </div>

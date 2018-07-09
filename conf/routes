@@ -7,6 +7,7 @@ GET     /                           controllers.HomeController.index
 GET     /upload                     controllers.PhotoController.getUpload
 GET     /photos                     controllers.PhotoController.getPhotos
 GET     /photopicture/:id           controllers.PhotoController.getPhotoPicture(id : Integer)
+GET     /search                     controllers.PhotoController.getSearch
 
 GET     /photographers              controllers.PhotographerController.getPhotographers
 GET     /photographer/:id           controllers.PhotographerController.getPhotographer(id : Integer)
@@ -14,6 +15,7 @@ GET     /photographer/:id           controllers.PhotographerController.getPhotog
 POST    /                           controllers.HomeController.postIndex
 
 POST    /upload                     controllers.PhotoController.postUpload
+POST    /search                     controllers.PhotoController.postSearch
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
