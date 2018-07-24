@@ -1,5 +1,5 @@
 package services;
-
+/*
 import com.flickr4java.flickr.Flickr;
 import com.flickr4java.flickr.FlickrException;
 import com.flickr4java.flickr.people.PeopleInterface;
@@ -103,3 +103,4 @@ public class FlickrAPICall
         return peopleInterface;
     }
 }
+*/

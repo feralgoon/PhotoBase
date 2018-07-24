@@ -269,12 +269,66 @@ public class PhotoController extends Controller
     @Transactional(readOnly = true)
     public Result postSearch()
     {
-        List<String> cameramodels  = Arrays.asList(request().body().asMultipartFormData().asFormUrlEncoded().get("CameraModel"));
-        List<String> photographers = Arrays.asList(request().body().asMultipartFormData().asFormUrlEncoded().get("Photographer"));
-        List<String> apertures     = Arrays.asList(request().body().asMultipartFormData().asFormUrlEncoded().get("Aperture"));
-        List<String> exposures     = Arrays.asList(request().body().asMultipartFormData().asFormUrlEncoded().get("Exposure"));
-        List<String> isos          = Arrays.asList(request().body().asMultipartFormData().asFormUrlEncoded().get("Iso"));
-        List<String> lensmodels    = Arrays.asList(request().body().asMultipartFormData().asFormUrlEncoded().get("LensModel"));
+        List<String> cameramodels;
+        List<String> photographers;
+        List<String> apertures;
+        List<String> exposures;
+        List<String> isos;
+        List<String> lensmodels;
+
+        if(request().body().asMultipartFormData().asFormUrlEncoded().containsKey("CameraModel"))
+        {
+            cameramodels = Arrays.asList(request().body().asMultipartFormData().asFormUrlEncoded().get("CameraModel"));
+        }
+        else
+        {
+            cameramodels = new ArrayList<>();
+        }
+
+        if(request().body().asMultipartFormData().asFormUrlEncoded().containsKey("Photographer"))
+        {
+            photographers = Arrays.asList(request().body().asMultipartFormData().asFormUrlEncoded().get("Photographer"));
+        }
+        else
+        {
+            photographers = new ArrayList<>();
+        }
+
+        if(request().body().asMultipartFormData().asFormUrlEncoded().containsKey("Aperture"))
+        {
+            apertures = Arrays.asList(request().body().asMultipartFormData().asFormUrlEncoded().get("Aperture"));
+        }
+        else
+        {
+            apertures = new ArrayList<>();
+        }
+
+        if(request().body().asMultipartFormData().asFormUrlEncoded().containsKey("Exposure"))
+        {
+            exposures = Arrays.asList(request().body().asMultipartFormData().asFormUrlEncoded().get("Exposure"));
+        }
+        else
+        {
+            exposures = new ArrayList<>();
+        }
+
+        if(request().body().asMultipartFormData().asFormUrlEncoded().containsKey("Iso"))
+        {
+            isos = Arrays.asList(request().body().asMultipartFormData().asFormUrlEncoded().get("Iso"));
+        }
+        else
+        {
+            isos = new ArrayList<>();
+        }
+
+        if(request().body().asMultipartFormData().asFormUrlEncoded().containsKey("LensModel"))
+        {
+            lensmodels = Arrays.asList(request().body().asMultipartFormData().asFormUrlEncoded().get("LensModel"));
+        }
+        else
+        {
+            lensmodels = new ArrayList<>();
+        }
 
         String sql = "SELECT NEW models.PhotoDetail(p.photoId,ph.photographerName,ph.photographerId,lm.lensModelName,cm.cameraModelName,i.isoSpeed,a.apertureName," +
                 "e.exposureLength,p.dateTaken,p.timeTaken) " +
@@ -286,34 +340,76 @@ public class PhotoController extends Controller
                 "JOIN Aperture a ON p.apertureId = a.apertureId " +
                 "JOIN ExposureTime e ON p.exposureTimeId = e.exposureTimeId ";
 
+        int count = 0;
+
         if(!(cameramodels.isEmpty() || cameramodels.get(0).startsWith("Any")))
         {
             sql += "WHERE cm.cameraModelName IN :cameramodels ";
+            count++;
         }
 
         if(!(photographers.isEmpty() || photographers.get(0).startsWith("Any")))
         {
-            sql += "WHERE ph.photographerName IN :photographers ";
+            if (count != 0)
+            {
+                sql += "AND ph.photographerName IN :photographers ";
+            }
+            else
+            {
+                sql += "WHERE ph.photographerName IN :photographers ";
+                count++;
+            }
         }
 
         if(!(apertures.isEmpty() || apertures.get(0).startsWith("Any")))
         {
-            sql += "WHERE a.apertureName IN :apertures ";
+            if (count != 0)
+            {
+                sql += "AND a.apertureName IN :apertures ";
+            }
+            else
+            {
+                sql += "WHERE a.apertureName IN :apertures ";
+                count++;
+            }
         }
 
         if(!(exposures.isEmpty() || exposures.get(0).startsWith("Any")))
         {
-            sql += "WHERE e.exposureLength IN :exposures ";
+            if (count != 0)
+            {
+                sql += "AND e.exposureLength IN :exposures ";
+            }
+            else
+            {
+                sql += "WHERE e.exposureLength IN :exposures ";
+                count++;
+            }
         }
 
         if(!(isos.isEmpty() || isos.get(0).startsWith("Any")))
         {
-            sql += "WHERE i.isoSpeed IN :isos ";
+            if (count != 0)
+            {
+                sql += "AND i.isoSpeed IN :isos ";
+            }
+            else
+            {
+                sql += "WHERE i.isoSpeed IN :isos ";
+                count++;
+            }
         }
 
         if(!(lensmodels.isEmpty() || lensmodels.get(0).startsWith("Any")))
         {
-            sql += "WHERE lm.lensModelName IN :lensmodels ";
+            if (count != 0)
+            {
+                sql += "AND lm.lensModelName IN :lensmodels ";
+            }
+            else
+            {
+                sql += "WHERE lm.lensModelName IN :lensmodels ";
+            }
         }
 
         Query query = jpaApi.em().createQuery(sql);
